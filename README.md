@@ -48,6 +48,7 @@ numpy
 Installation
 
 Clone this repository:
-``` git clone https://github.com/Habibur-02/Generative-Adversarial-Networks-GANs.git
+```
+git clone https://github.com/Habibur-02/Generative-Adversarial-Networks-GANs.git
 cd Generative-Adversarial-Networks-GANs
 ```
