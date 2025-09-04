@@ -6,11 +6,10 @@ from torchvision import datasets, transforms
 from torchvision.utils import save_image
 import os
 
-# ========= Hyperparameters =========
 latent_dim = 100
-img_size = 64      # সব ছবি 64x64 এ resize
-channels = 3       # RGB
-batch_size = 8     # ছোট dataset -> ছোট batch size
+img_size = 64      
+channels = 3       
+batch_size = 8     
 lr = 0.0002
 epochs = 300
 lambda_gp = 10
@@ -58,7 +57,6 @@ class Generator(nn.Module):
         return self.net(z)
 
 
-# ========= Critic =========
 class Critic(nn.Module):
     def __init__(self):
         super().__init__()
@@ -80,7 +78,6 @@ class Critic(nn.Module):
     def forward(self, x):
         return self.net(x).view(-1, 1)
 
-# ========= Gradient Penalty =========
 def gradient_penalty(critic, real_imgs, fake_imgs):
     batch_size = real_imgs.size(0)
     epsilon = torch.rand(batch_size, 1, 1, 1, device=device)
@@ -110,7 +107,6 @@ optimizer_C = optim.Adam(critic.parameters(), lr=lr, betas=(0.5, 0.9))
 
 os.makedirs("generated_images1", exist_ok=True)
 
-# ========= Training =========
 for epoch in range(epochs):
     for i, (imgs, _) in enumerate(dataloader):
         real_imgs = imgs.to(device)
@@ -130,7 +126,6 @@ for epoch in range(epochs):
             loss_C.backward()
             optimizer_C.step()
 
-        # ---- Train Generator ----
         z = torch.randn(real_imgs.size(0), latent_dim, 1, 1, device=device)
         gen_imgs = generator(z)
         loss_G = -torch.mean(critic(gen_imgs))
